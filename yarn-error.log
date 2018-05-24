@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/tariqulislam/.nvm/versions/node/v8.10.0/bin/node /Users/tariqulislam/.yarn/bin/yarn.js db-init
+  /Users/tariqulislam/.nvm/versions/node/v8.10.0/bin/node /Users/tariqulislam/.yarn/bin/yarn.js start-server
 
 PATH: 
   /Users/tariqulislam/.yarn/bin:/Users/tariqulislam/.config/yarn/global/node_modules/.bin:/Users/tariqulislam/.nvm/versions/node/v8.10.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/Users/tariqulislam/.yarn/bin:/Users/tariqulislam/.config/yarn/global/node_modules/.bin:/usr/local/mongodb/bin:/Users/tariqulislam/Development/dev-database/cassandra/bin:/usr/local/mongodb/bin:/Users/tariqulislam/Development/dev-database/cassandra/bin
@@ -20,7 +20,8 @@ npm manifest:
     "private": true,
     "scripts": {
       "start": "node ./bin/www",
-      "server-start": "nodemon --watch .env --watch app.js --watch bin ./bin/www --watch controller --watch config --watch migration --watch models --watch routes --watch config",
+      "server-start": "nodemon --watch .env --watch app.js --watch bin ./bin/www --watch controller --watch db --watch routes --watch config",
+      "db": "sequelize init",
       "db-migrate": "sequelize db:migrate"
     },
     "dependencies": {
@@ -897,7 +898,7 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: Command "db-init" not found.
+  Error: Command "start-server" not found.
       at new MessageError (/Users/tariqulislam/.yarn/lib/cli.js:186:110)
       at /Users/tariqulislam/.yarn/lib/cli.js:87307:17
       at Generator.next (<anonymous>)
