@@ -22,6 +22,11 @@ module.exports = {
             201,
             "success"
         )))
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(400).send(ResponseFormat.build(
+            error,
+            "Somthing went wrong when Reterieve Information",
+            400,
+            "error"
+        )));
     }
 }
