@@ -3,16 +3,23 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "server-start": "nodemon --watch .env --watch app.js --watch bin ./bin/www --watch controller --watch db --watch routes --watch config",
+    "db": "sequelize init",
+    "db-migrate": "sequelize db:migrate"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^5.0.1",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
     "mysql2": "^1.5.3",
     "sequelize": "^4.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.17.5"
   }
 }
