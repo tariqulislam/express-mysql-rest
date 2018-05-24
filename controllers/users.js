@@ -9,8 +9,17 @@ module.exports = {
             lastName: req.body.lastName,
             email: req.body.email
         })
-        .then(user => res.status(201).send(user))
-        .catch(error => res.status(400).send(error))
+        .then(user => res.status(201).json(ResponseFormat.build(
+            user,
+            "User Create Successfully",
+            201,
+            "success"
+        )))
+        .catch(error => res.status(400).json(ResponseFormat.build(
+            error,
+            "Something went wrong when create Users",
+            "error"
+        )))
     },
     list(req, res) {
         console.log(req)
@@ -19,7 +28,7 @@ module.exports = {
         .then(users => res.status(200).json(ResponseFormat.build(
             users,
             "User Information Reterive successfully",
-            201,
+            200,
             "success"
         )))
         .catch(error => res.status(400).send(ResponseFormat.build(
