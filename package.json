@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "server-start": "nodemon --watch .env --watch app.js --watch bin ./bin/www --watch controller --watch db --watch routes --watch core --watch config",
     "db": "sequelize init",
-    "db-migrate": "sequelize db:migrate"
+    "db-migrate": "sequelize db:migrate",
+    "test": "mocha"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -20,6 +21,9 @@
     "sequelize": "^4.37.8"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.5"
   }
 }
