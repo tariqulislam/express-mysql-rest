@@ -31,10 +31,83 @@ For front end development purpose we need to example api server to design site o
 
  1. For consuming the get api or list for user ```[GET]http://localhost:3000/api/users``` 
  2. For posting the data to api ```[POST]http://localhost:3000/api/users``` 
-    Request Body: 
-    ```{
-       firstName: <name>,
-       lastName: <lastname>,
-       email: <email>
-    }```
+        Request Body:
+        {
+                firstName: 'example name',
+                lastName: 'example last name,
+                email: 'example email'
+        }
+
+## Create the New Model for Application
+
+```$ sequelize model:create --name User --attributes firstName:string, lastName:string, email:string```
+
+this command will create the model file with migration file at `db` folder.those are file name are based on model name
+        1. db/model/<model>.js file
+        2. db/migration/ <date>-create-user.js
+
+### Example of model file is
+```javascript
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var User = sequelize.define('User', {
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    email: DataTypes.STRING
+  }, {});
+  User.associate = function(models) {
+    // associations can be defined here
+    User.hasMany(models.Comment,{
+      foreignKey: 'userId',
+      as: 'comments'
+    });
+
+  };
+  return User;
+};
+```
+### Example of migration file is
+```javascript
+'use strict';
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('Users', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      firstName: {
+        type: Sequelize.STRING
+      },
+      lastName: {
+        type: Sequelize.STRING
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  down: (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Users');
+  }
+};
+```
+at migration two field are automatically added. those are ```createdAt``` and ```updatedAt``` field. then we need to migrate model to database just run the command ```yarn db:migrate``` or ```npm run db:migrate``` to create table at database and ORM mapping purpose.
+
+## Create the controller for Rest api
+
+For controller we have to create the ```controller``` folder to root of the application. for example purpose ```users.js``` file is created. that controller control all the business logic of the application.
+
+
+
 
