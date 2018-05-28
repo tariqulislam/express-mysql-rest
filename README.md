@@ -106,8 +106,73 @@ at migration two field are automatically added. those are ```createdAt``` and ``
 
 ## Create the controller for Rest api
 
-For controller we have to create the ```controller``` folder to root of the application. for example purpose ```users.js``` file is created. that controller control all the business logic of the application.
+For controller we have to create the ```controller``` folder to root of the application. for example purpose ```users.js``` file is created. that controller control all the business logic of the application. We will export the different function from controller file.
 
+#### For GET Api example code will be
+```javascript
+  list(req, res) {
+        return user
+        .all()
+        .then(users => res.status(200).json(ResponseFormat.build(
+            users,
+            "User Information Reterive successfully",
+            200,
+            "success"
+        )))
+        .catch(error => res.status(400).send(ResponseFormat.build(
+            error,
+            "Somthing went wrong when Reterieve Information",
+            400,
+            "error"
+        )));
+    }
+```
+#### For POST Api example code will be
+```javascript
+ create(req, res) {
+        return user
+        .create({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email
+        })
+        .then(user => res.status(201).json(ResponseFormat.build(
+            user,
+            "User Create Successfully",
+            201,
+            "success"
+        )))
+        .catch(error => res.status(400).json(ResponseFormat.error(
+            error,
+            "Something went wrong when create Users",
+            "error"
+        )))
+    },
+```
+## Routing the Api
+
+For Api routing purpose i have added the ```index.js``` file to ```routes`` folder, and to routing the api we should use this code
+
+```javascript
+const userController = require('../controllers').users
+const commentController = require('../controllers').comments
+
+module.exports = (app) => {
+  app.post('/api/users', userController.create);
+  app.get('/api/users', userController.list);
+}
+```
+If you want to add the other controller to routes. just add the controller by Import
+the controller module:
+
+```javascript
+const [ControllerName] = require(/* Import the file */).[Export Module Name]
+```
+then call the funtions inside the ```module.exports```:
+```javascript
+app.<REST API COSUME METHOD>(<API END POINT>, <CONTROLLER NAME>.<METHOD>)
+```
+It's so easy and minimal code and configuration to create the rest api with mysql and express. you can use this to your project for starter.
 
 
 
