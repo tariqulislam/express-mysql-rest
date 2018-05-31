@@ -174,5 +174,92 @@ app.<REST API COSUME METHOD>(<API END POINT>, <CONTROLLER NAME>.<METHOD>)
 ```
 It's so easy and minimal code and configuration to create the rest api with mysql and express. you can use this to your project for starter.
 
+###sample test script with ```Mocha``` and ```Chai```
 
+1. Create the folder ```test``` at root directory
+2. Create the file named ```user.js``` at ```test``` folder
 
+For testing with ```Mocha``` and ```Chai``` we have just add the ```Mocha``` globally
+```javascript
+> npm install -g mocha
+```
+At the ```user.js``` file i have provide you the sample testing script for api testing.
+
+For testing purpose we have change Node js environment variable at ```user.js``` file
+```javascript
+process.env.NODE_ENV = "test"
+```
+Then we have to add the model which will be use for testing
+```javascript
+const User = require('../db/models').User;
+```
+Then add the ```chai``` and ```chai-http``` package for testing the api server. for testing with api server we need to
+add main `js` file ```app.js``` as server 
+```javascript
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const app = require('../app');
+const should = chai.should();
+chai.use(chaiHttp)
+```
+### [GET] /users testing:
+```javascript
+describe('/GET user', () => {
+    it('it should Get all users', (done) => {
+        chai.request(app)
+        .get('/api/users')
+        .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+        });
+    });
+});
+```
+### [POST] /users testing:
+```javascript
+describe('/POST user', () => {
+    it('it sould post the user info', (done) => {
+        const user = {
+            firstName: " Husne Ara",
+            lastName: "Asma",
+            email: "asma@gmail.com"
+        };
+
+        chai.request(app)
+        .post('/api/users')
+        .send(user)
+        .end((err, res) => {
+            res.should.have.status(201);
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.should.have.property('message');
+            res.body.should.have.property('statusType').eq('success');
+            done();
+        });
+    });
+});
+```
+
+### [PUT] /user Testing:
+```javascript
+describe('/PUT/:id user', () => {
+    it("should not update the user info", (done) => {
+        const user = {
+            firstName: "Mr.",
+            lastName: "Himu",
+        }
+        const userId = 2;
+         chai.request(app)
+         .put('/api/users/'+ userId)
+         .send(user)
+         .end((err, res) => {
+             res.should.have.status(404);
+             res.body.should.be.a('object');
+             res.body.should.have.property('message');
+             res.body.should.have.property('statusType').eq('error');
+             done();
+         });
+    });
+});
+```
